@@ -1,4 +1,6 @@
+mod conditionals;
 fn main() {
+    
     println!("Hello, world!");
 
     //integers -signed an unsigned
@@ -8,21 +10,6 @@ fn main() {
     let f: f32 = 7.777777;
 
     println!("x: {}, a: {}, b: {}, f: {}",x,a,b,f);
-
-    //static checking
-    let is_mard: bool = true;
-    let is_successfull: bool = false;
-
-    if is_mard {
-        println!("tum ek mard ho");
-    } else {
-        println!("tum ek na mard ho");
-    }
-    if is_mard && is_successfull {
-        println!("u won in life");
-    } else {
-        println!("Work hard!!");
-    }
 
     let name: String = String::from("adsince2k4");
     println!("{}", name);
