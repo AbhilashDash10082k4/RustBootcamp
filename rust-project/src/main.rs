@@ -1,6 +1,7 @@
 mod conditionals;
 mod memory;
 mod ownership;
+mod structs;
 mod borrowing_references;
 fn main() {
     
