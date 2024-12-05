@@ -50,5 +50,5 @@ fn update_string_fn() {
     str1.push_str("a senior rust developer");
     println!("{}", str1);
     
-    println!("Capacity :{}, Length :{}, Pointer :{:p}", str1.capacity(),str1.len(), str1.as_ptr() );
+    println!("Capacity :{}, Length :{}, Pointer :{:p}", str1.capacity(),str1.len(), str1.as_ptr() ); //if the capacity increases the pointer changes
 }
