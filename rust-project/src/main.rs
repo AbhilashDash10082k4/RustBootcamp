@@ -3,6 +3,7 @@ mod memory;
 mod ownership;
 mod structs;
 mod borrowing_references;
+mod error_handling;
 
 mod enums;
 fn main() {
