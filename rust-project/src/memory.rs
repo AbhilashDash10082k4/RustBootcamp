@@ -8,7 +8,7 @@ ways of memory management-
 3.rust way- has its own ownership for memory management makes it safe to memory errors
 
 JARGONS-
-   a.Mutability- changeability, immutability optimizes code and compiler faster
+   a.Mutability- changeability, immutability optimizes code and compile faster
    
    b.Stack vs Heap- 
    Stack- more organized, mem allocated in a stack, the 1st var will be stored at the bottom of the stack, only var of fixed size are stored, int , bools, 
@@ -40,7 +40,7 @@ fn heap_fn() {
     let a = String::from("abhilash");
     let b = String::from("dash");
     let full_name = format!("{} {}", a, b);
-    println!("Heap fn: '{}'", full_name);
+    println!("Heap fn: {}", full_name);
 }
 
 fn update_string_fn() {
