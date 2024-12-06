@@ -4,7 +4,8 @@ if an owner dies out, all teh borrowers eventually die out as the ownership is o
 
 a var can have multiple borrowers and only 1 owner untill n unless the var is not doing hanky panky with the owner or borrower, doing hanky panky means getting changed or modified
 
-multiple mutable references are not allowed to prevent memory issues also an immutable reference cannot be done if a var has already been refered mutably*/
+multiple mutable references are not allowed to prevent memory issues also an immutable reference cannot be done if a var has already been refered mutably and is tried to modify the refered var, but a var can be refered to immutably as well as mutably untill n unless the mutable reference is not modified which will eventually modify the owner but the immutable reference assumed it to be non-modifiable
+*/
 
 fn main() {
     let mut s1 = String::from("asdasda");
