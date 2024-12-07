@@ -14,5 +14,6 @@ console.log("area of rect is", rect1.area());
 mod vectors;
 mod hashmaps;
 mod iterators;
+mod slices;
 fn main() {
 }
