@@ -12,5 +12,6 @@ const rect1 = new Rect(6,7);
 console.log("area of rect is", rect1.area());
 */
 mod vectors;
+mod hashmaps;
 fn main() {
 }
