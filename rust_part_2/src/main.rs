@@ -15,5 +15,6 @@ mod vectors;
 mod hashmaps;
 mod iterators;
 mod slices;
+mod generics;
 fn main() {
 }
