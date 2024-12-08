@@ -17,5 +17,6 @@ mod iterators;
 mod slices;
 mod generics;
 mod traits;
+mod lifetimes;
 fn main() {
 }
