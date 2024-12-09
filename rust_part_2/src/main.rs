@@ -18,5 +18,6 @@ mod slices;
 mod generics;
 mod traits;
 mod lifetimes;
+mod multithreading;
 fn main() {
 }
