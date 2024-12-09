@@ -19,5 +19,6 @@ mod generics;
 mod traits;
 mod lifetimes;
 mod multithreading;
+mod thread_qsn;
 fn main() {
 }

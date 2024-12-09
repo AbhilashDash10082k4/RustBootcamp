@@ -26,7 +26,6 @@ fn main() {
     println!("{}", x);
 
     //message passing- creating chnnl and passing data form one thread to other thread, if one of th etransmitter or reciever goes out of the scope then the chnnl is said to be closed
-
     let (tx, rx) = mpsc::channel();
     thread::spawn(move || {
         let msg_send = String::from("hii");
