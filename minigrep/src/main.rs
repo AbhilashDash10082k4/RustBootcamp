@@ -1,5 +1,5 @@
-use std::env;
-use std::fs;
+use minigrep::search;
+use std::{env, error::Error, fs, process};
 /* Collecting user arguments in a vec-
 Reference -chapter 12 I/O Project
 let command:Vec<String> = env::args().collect();
@@ -16,14 +16,29 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     dbg!(&args);
 
-    let config = Config::new(&args);
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
+    /*unwrap_or_else -> non panicking way to handle errors -
+    if Ok(T) -> o/p = T
+    if op = Err => closure will run
+    */
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
 
     //reading the file -
-    let contents =
-        fs::read_to_string(config.file_path).expect("Should be able to read an existing file");
-    println!("With text:\n{contents}");
+    if let Err(e) = run(config) {
+        println!("Application error: {e}");
+        process::exit(1);
+    }
+}
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    //.expect("Should be able to read an existing file") -> this panicks
+    let contents = fs::read_to_string(config.file_path)?;
+
+    for line in search(&config.query, &contents) {
+        println!("With text:\n{line}");
+    }
+    Ok(())
 }
 struct Config {
     query: String,
@@ -31,9 +46,10 @@ struct Config {
 }
 impl Config {
     //a default impl of Config
-    fn new(args: &[String]) -> Config {
+    fn build(args: &[String]) -> Result<Config, &str> {
         if args.len() < 3 {
-            panic!("Not enough arguments");
+            //better error type than panic
+            return Err("Not enough arguments");
         }
         let query = args[1].clone();
         let file_path = args[2].clone();
@@ -41,6 +57,10 @@ impl Config {
         //Config stores owned vals which transfers the ownership of config vars from args to the Config struct which violates ownership rules. So ,clone the args elems. This is inefficient but simple as there is no lifetime specification in this syntax
 
         //this creates an instance of Config ->so associate this with the struct and rename parse_config to new to justify the purpose
-        Config { query, file_path }
+
+        //fn name changed to build as this is not a perfect fn and returns an error
+
+        //return type - Result<Config, &static str> to return better error types
+        Ok(Config { query, file_path })
     }
 }
