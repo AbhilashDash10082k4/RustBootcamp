@@ -1,4 +1,5 @@
 use std::env;
+use std::fs;
 /* Collecting user arguments in a vec-
 Reference -chapter 12 I/O Project
 let command:Vec<String> = env::args().collect();
@@ -15,8 +16,23 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     dbg!(&args);
 
-    let mut query = &args[1];
-    let mut file_path = &args[2];
-    println!("Searching for {query}");
-    println!("In file {file_path}");
+    let config = parse_config(&args);
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    //reading the file -
+    let contents =
+        fs::read_to_string(config.file_path).expect("Should be able to read an existing file");
+    println!("With text:\n{contents}");
+}
+struct Config {
+    query: String,
+    file_path: String,
+}
+fn parse_config(args: &[String]) -> Config {
+    let query = args[1].clone();
+    let file_path = args[2].clone();
+
+    //Config stores owned vals which transfers the ownership of config vars from args to the Config struct which violates ownership rules. So ,clone the args elems. This is inefficient but simple as there is no lifetime specification in this syntax 
+    Config { query, file_path }
 }
