@@ -16,7 +16,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     dbg!(&args);
 
-    let config = parse_config(&args);
+    let config = Config::new(&args);
     println!("Searching for {}", config.query);
     println!("In file {}", config.file_path);
 
@@ -29,10 +29,18 @@ struct Config {
     query: String,
     file_path: String,
 }
-fn parse_config(args: &[String]) -> Config {
-    let query = args[1].clone();
-    let file_path = args[2].clone();
+impl Config {
+    //a default impl of Config
+    fn new(args: &[String]) -> Config {
+        if args.len() < 3 {
+            panic!("Not enough arguments");
+        }
+        let query = args[1].clone();
+        let file_path = args[2].clone();
 
-    //Config stores owned vals which transfers the ownership of config vars from args to the Config struct which violates ownership rules. So ,clone the args elems. This is inefficient but simple as there is no lifetime specification in this syntax 
-    Config { query, file_path }
+        //Config stores owned vals which transfers the ownership of config vars from args to the Config struct which violates ownership rules. So ,clone the args elems. This is inefficient but simple as there is no lifetime specification in this syntax
+
+        //this creates an instance of Config ->so associate this with the struct and rename parse_config to new to justify the purpose
+        Config { query, file_path }
+    }
 }
