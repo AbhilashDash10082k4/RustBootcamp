@@ -21,13 +21,14 @@ fn main() {
     if op = Err => closure will run
     */
     let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
+        //eprintln -prints err to standard error stream
+        eprintln!("Problem parsing arguments: {err}");
         process::exit(1);
     });
 
     //reading the file -
     if let Err(e) = run(config) {
-        println!("Application error: {e}");
+        eprintln!("Application error: {e}");
         process::exit(1);
     }
 }
