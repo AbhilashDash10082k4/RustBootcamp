@@ -1,4 +1,4 @@
-use minigrep::search;
+use minigrep::{search, search_case_insensitive};
 use std::{env, error::Error, fs, process};
 /* Collecting user arguments in a vec-
 Reference -chapter 12 I/O Project
@@ -35,14 +35,22 @@ fn run(config: Config) -> Result<(), Box<dyn Error>> {
     //.expect("Should be able to read an existing file") -> this panicks
     let contents = fs::read_to_string(config.file_path)?;
 
-    for line in search(&config.query, &contents) {
-        println!("With text:\n{line}");
+    let res = if config.switch_case {
+        search(&config.query, &contents)
+    } else {
+        search_case_insensitive(&config.query, &contents)
+    };
+    for line in res {
+        println!("With text: \n {}", line);
     }
+
     Ok(())
 }
-struct Config {
-    query: String,
-    file_path: String,
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+    //if case sensitive search is reqd or not
+    pub switch_case: bool,
 }
 impl Config {
     //a default impl of Config
@@ -61,6 +69,11 @@ impl Config {
         //fn name changed to build as this is not a perfect fn and returns an error
 
         //return type - Result<Config, &static str> to return better error types
-        Ok(Config { query, file_path })
+
+        /*chk for any env val set to switch the cases
+        is_ok() -chks whether the val is set or not. If not set -sends false else true
+        env::var sends Err variant if variable is set else Ok variant*/
+        let switch_case = env::var("SWITCH_CASE").is_ok();
+        Ok(Config { query, file_path, switch_case })
     }
 }

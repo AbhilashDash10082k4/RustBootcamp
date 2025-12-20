@@ -1,4 +1,4 @@
-pub fn search<'a> (query: &str, contents: &'a str) -> Vec<&'a str> {
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     //contents is related to the return type as the return val contains the string ref from content param
     // unimplemented!(); -this panics on a test run
     /*lines() -> line by line iterator */
@@ -11,18 +11,46 @@ pub fn search<'a> (query: &str, contents: &'a str) -> Vec<&'a str> {
     }
     store
 }
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    // to_lowercase() creates a new string and does not references the existing data
+    let query = query.to_lowercase();
+    let mut store = Vec::new();
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            store.push(line);
+        }
+    }
+    store
+}
 
 #[cfg(test)]
 mod test {
     use super::*;
 
     #[test]
-    fn one_line () {
+    fn case_sensitive() {
         let query = "billionaire";
         let contents = "\
-        I will become a billionaire.
-        I will build a huge company.";
+        Rust:
+        safe, fast, productive.
+        Pick three.
+        Duct tape.";
 
-        assert_eq!(vec!["I", "will", "become", "a", "billionaire"], search(query, contents));
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+
+    #[test]
+    fn case_insensitive() {
+        let query = "rUsT";
+        let contents = "\
+        Rust:
+        safe, fast, productive.
+        Pick three.
+        Trust me.";
+
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
+        );
     }
 }
